@@ -49,11 +49,11 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: Terraform Apply
+      - name: Terraform Destroy
         uses: hashicorp/terraform-github-actions@master
         with:
           tf_actions_version: 0.14.8
-          tf_actions_subcommand: "apply"
+          tf_actions_subcommand: "destroy"
         env:
           TOKEN: ${{ secrets.TOKEN }}
           # TF_ACTION_WORKING_DIR: 'terraform'
