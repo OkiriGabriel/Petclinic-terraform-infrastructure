@@ -5,12 +5,12 @@ variable "region" {
 
 variable "ami" {
   description = "EC2 instance AMI ID"
-  default     = "ami-0f403e3180720dd7e" # Update with your desired AMI ID
+  default     = "ami-07d9b9ddc6cd8dd30" # Update with your desired AMI ID
 }
 
 variable "instance_type" {
   description = "EC2 instance type"
-  default     = "t2.small" # Update with your desired instance type
+  default     = "t2.micro" # Update with your desired instance type
 }
 
 variable "instance_class" {
