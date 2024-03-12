@@ -104,6 +104,14 @@ resource "aws_security_group" "cloudgen_ec2_sg" {
 
   ingress {
     description      = "TLS from VPC"
+    from_port        = 3000
+    to_port          = 3000
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description      = "TLS from VPC"
     from_port        = 3306
     to_port          = 3306
     protocol         = "tcp"
@@ -136,25 +144,7 @@ resource "aws_instance" "web_instance" {
   subnet_id                   = aws_subnet.public_subnet.id
   vpc_security_group_ids      = [aws_security_group.cloudgen_ec2_sg.id]
   associate_public_ip_address = true
-
-  user_data = <<-EOF
-  #!/bin/bash -ex
- 
-  sudo mkdir actions-runner && cd actions-runner# Download the latest runner package
-  sudo curl -o actions-runner-linux-x64-2.314.1.tar.gz -L https://github.com/actions/runner/releases/download/v2.314.1/actions-runner-linux-x64-2.314.1.tar.gz# Optional: Validate the hash
-  sudo echo "6c726a118bbe02cd32e222f890e1e476567bf299353a96886ba75b423c1137b5  actions-runner-linux-x64-2.314.1.tar.gz" | shasum -a 256 -c# Extract the installer
-  sudo tar xzf ./actions-runner-linux-x64-2.314.1.tar.gz
-  sudo ./config.sh --url https://github.com/OkiriGabriel/Client-app-devops --token APZHJ7JT5EWGR7HNVHT6YDTF576TW
-  sudo ./svc.sh install
-  sudo ./svc.sh start
-  sudo apt-get update
-  sudo apt-get install nginx
-  sudo ufw allow 'Nginx Full'
-  sudo systemctl enable nginx
-  sudo systemctl start nginx
-  sudo systemctl status nginx
-  EOF
-
+  user_data = "${file("./userdata.sh")}"
   tags = {
     "Name" : "Frontend_webserver"
   }
@@ -168,23 +158,7 @@ resource "aws_instance" "server_app" {
   subnet_id                   = aws_subnet.public_subnet2.id
   vpc_security_group_ids      = [aws_security_group.cloudgen_ec2_sg.id]
   associate_public_ip_address = true
-
-  user_data = <<-EOF
-  #!/bin/bash -ex
-  sudo mkdir actions-runner && cd actions-runner# Download the latest runner package
-  sudo curl -o actions-runner-linux-x64-2.314.1.tar.gz -L https://github.com/actions/runner/releases/download/v2.314.1/actions-runner-linux-x64-2.314.1.tar.gz# Optional: Validate the hash
-  sudo echo "6c726a118bbe02cd32e222f890e1e476567bf299353a96886ba75b423c1137b5  actions-runner-linux-x64-2.314.1.tar.gz" | shasum -a 256 -c# Extract the installer
-  sudo tar xzf ./actions-runner-linux-x64-2.314.1.tar.gz
-  sudo ./config.sh --url https://github.com/OkiriGabriel/Client-app-devops --token APZHJ7JT5EWGR7HNVHT6YDTF576TW
-  sudo ./svc.sh install
-  sudo ./svc.sh start
-  sudo apt-get update
-  sudo apt-get install nginx
-  sudo ufw allow 'Nginx Full'
-  sudo systemctl enable nginx
-  sudo systemctl start nginx
-  sudo systemctl status nginx
-  EOF
+  user_data = "${file("./userdata.sh")}"
 
   tags = {
     "Name" : "Backend_webserver"
@@ -201,7 +175,12 @@ resource "aws_security_group" "lb_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
+  ingress {
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   
   egress {
     from_port        = 0
@@ -240,7 +219,7 @@ resource "aws_db_instance" "cloudgen-rds" {
   password                = var.password   # Replace with your desired database password
   publicly_accessible     = true
   parameter_group_name = "default.mysql5.7"
-#   db_subnet_group_name    = aws_db_subnet_group.cloudgen_db_subnet.name
+  db_subnet_group_name    = aws_db_subnet_group.cloudgen_db_subnet.name
   vpc_security_group_ids  = [aws_security_group.cloudgen_ec2_sg.id]
   skip_final_snapshot     = true
 }
@@ -250,3 +229,6 @@ resource "aws_db_subnet_group" "cloudgen_db_subnet" {
   name       = "cloudgen-subnet-group"
   subnet_ids = [aws_subnet.private_subnet.id, aws_subnet.private_subnet2.id]
 }
+
+
+
