@@ -139,11 +139,20 @@ resource "aws_instance" "web_instance" {
 
   user_data = <<-EOF
   #!/bin/bash -ex
-
-  amazon-linux-extras install nginx1 -y
-  echo "<h1>$(curl https://api.kanye.rest/?format=text)</h1>" >  /usr/share/nginx/html/index.html 
-  systemctl enable nginx
-  systemctl start nginx
+ 
+  sudo mkdir actions-runner && cd actions-runner# Download the latest runner package
+  sudo curl -o actions-runner-linux-x64-2.314.1.tar.gz -L https://github.com/actions/runner/releases/download/v2.314.1/actions-runner-linux-x64-2.314.1.tar.gz# Optional: Validate the hash
+  sudo echo "6c726a118bbe02cd32e222f890e1e476567bf299353a96886ba75b423c1137b5  actions-runner-linux-x64-2.314.1.tar.gz" | shasum -a 256 -c# Extract the installer
+  sudo tar xzf ./actions-runner-linux-x64-2.314.1.tar.gz
+  sudo ./config.sh --url https://github.com/OkiriGabriel/Client-app-devops --token APZHJ7JT5EWGR7HNVHT6YDTF576TW
+  sudo ./svc.sh install
+  sudo ./svc.sh start
+  sudo apt-get update
+  sudo apt-get install nginx
+  sudo ufw allow 'Nginx Full'
+  sudo systemctl enable nginx
+  sudo systemctl start nginx
+  sudo systemctl status nginx
   EOF
 
   tags = {
@@ -162,10 +171,19 @@ resource "aws_instance" "server_app" {
 
   user_data = <<-EOF
   #!/bin/bash -ex
-  amazon-linux-extras install nginx1 -y
-  echo "<h1>$(curl https://api.kanye.rest/?format=text)</h1>" >  /usr/share/nginx/html/index.html 
-  systemctl enable nginx
-  systemctl start nginx
+  sudo mkdir actions-runner && cd actions-runner# Download the latest runner package
+  sudo curl -o actions-runner-linux-x64-2.314.1.tar.gz -L https://github.com/actions/runner/releases/download/v2.314.1/actions-runner-linux-x64-2.314.1.tar.gz# Optional: Validate the hash
+  sudo echo "6c726a118bbe02cd32e222f890e1e476567bf299353a96886ba75b423c1137b5  actions-runner-linux-x64-2.314.1.tar.gz" | shasum -a 256 -c# Extract the installer
+  sudo tar xzf ./actions-runner-linux-x64-2.314.1.tar.gz
+  sudo ./config.sh --url https://github.com/OkiriGabriel/Client-app-devops --token APZHJ7JT5EWGR7HNVHT6YDTF576TW
+  sudo ./svc.sh install
+  sudo ./svc.sh start
+  sudo apt-get update
+  sudo apt-get install nginx
+  sudo ufw allow 'Nginx Full'
+  sudo systemctl enable nginx
+  sudo systemctl start nginx
+  sudo systemctl status nginx
   EOF
 
   tags = {
@@ -222,7 +240,7 @@ resource "aws_db_instance" "cloudgen-rds" {
   password                = var.password   # Replace with your desired database password
   publicly_accessible     = true
   parameter_group_name = "default.mysql5.7"
-  db_subnet_group_name    = aws_db_subnet_group.cloudgen_db_subnet.name
+#   db_subnet_group_name    = aws_db_subnet_group.cloudgen_db_subnet.name
   vpc_security_group_ids  = [aws_security_group.cloudgen_ec2_sg.id]
   skip_final_snapshot     = true
 }
