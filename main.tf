@@ -157,7 +157,7 @@ resource "aws_instance" "server_app" {
   instance_type = var.instance_type
   key_name      = "gabekp"
 
-  subnet_id                   = aws_subnet.public_subnet2.id
+  subnet_id                   = aws_subnet.public_subnet.id
   vpc_security_group_ids      = [aws_security_group.cloudgen_ec2_sg.id]
   associate_public_ip_address = true
 
