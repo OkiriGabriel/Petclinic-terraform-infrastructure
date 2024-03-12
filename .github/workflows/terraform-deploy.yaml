@@ -6,24 +6,24 @@ on:
       - master
 
 jobs:
-     tf_destroy:
-      name: Destroy Infrastructure
-      runs-on: ubuntu-latest
-      needs: tf_fmt
-      steps:
-        - name: Checkout Repo
-          uses: actions/checkout@v2
+  tf_destroy:
+    name: Destroy Infrastructure
+    runs-on: ubuntu-latest
+    needs: tf_fmt
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
 
-        - name: Terraform Destroy
-          uses: hashicorp/terraform-github-actions@master
-          with:
-            tf_actions_version: 0.14.8
-            tf_actions_subcommand: "destroy"
-          env:
-            TOKEN: ${{ secrets.TOKEN }}
-            AWS_REGION: ${{ secrets.AWS_REGION }}
-            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Terraform Destroy
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.14.8
+          tf_actions_subcommand: "destroy"
+        env:
+          TOKEN: ${{ secrets.TOKEN }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   # tf_fmt:
   #   name: Deploy Infrastructure
   #   runs-on: ubuntu-latest
