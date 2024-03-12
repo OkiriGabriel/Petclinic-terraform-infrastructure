@@ -144,7 +144,7 @@ resource "aws_instance" "web_instance" {
   sudo curl -o actions-runner-linux-x64-2.314.1.tar.gz -L https://github.com/actions/runner/releases/download/v2.314.1/actions-runner-linux-x64-2.314.1.tar.gz# Optional: Validate the hash
   sudo echo "6c726a118bbe02cd32e222f890e1e476567bf299353a96886ba75b423c1137b5  actions-runner-linux-x64-2.314.1.tar.gz" | shasum -a 256 -c# Extract the installer
   sudo tar xzf ./actions-runner-linux-x64-2.314.1.tar.gz
-  sudo ./config.sh --url https://github.com/OkiriGabriel/Client-app-devops --token APZHJ7JT5EWGR7HNVHT6YDTF576TW
+  sudo ./config.sh --url https://github.com/OkiriGabriel/Client-app-devops --token xxxx
   sudo ./svc.sh install
   sudo ./svc.sh start
   sudo apt-get update
@@ -175,7 +175,7 @@ resource "aws_instance" "server_app" {
   sudo curl -o actions-runner-linux-x64-2.314.1.tar.gz -L https://github.com/actions/runner/releases/download/v2.314.1/actions-runner-linux-x64-2.314.1.tar.gz# Optional: Validate the hash
   sudo echo "6c726a118bbe02cd32e222f890e1e476567bf299353a96886ba75b423c1137b5  actions-runner-linux-x64-2.314.1.tar.gz" | shasum -a 256 -c# Extract the installer
   sudo tar xzf ./actions-runner-linux-x64-2.314.1.tar.gz
-  sudo ./config.sh --url https://github.com/OkiriGabriel/Client-app-devops --token APZHJ7JT5EWGR7HNVHT6YDTF576TW
+  sudo ./config.sh --url https://github.com/OkiriGabriel/Client-app-devops --token xxxx
   sudo ./svc.sh install
   sudo ./svc.sh start
   sudo apt-get update
