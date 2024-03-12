@@ -144,7 +144,11 @@ resource "aws_instance" "web_instance" {
   subnet_id                   = aws_subnet.public_subnet.id
   vpc_security_group_ids      = [aws_security_group.cloudgen_ec2_sg.id]
   associate_public_ip_address = true
+
   user_data = "${file("./userdata.sh")}"
+=======
+
+
   tags = {
     "Name" : "Frontend_webserver"
   }
@@ -158,7 +162,9 @@ resource "aws_instance" "server_app" {
   subnet_id                   = aws_subnet.public_subnet2.id
   vpc_security_group_ids      = [aws_security_group.cloudgen_ec2_sg.id]
   associate_public_ip_address = true
+
   user_data = "${file("./userdata.sh")}"
+
 
   tags = {
     "Name" : "Backend_webserver"
@@ -229,6 +235,3 @@ resource "aws_db_subnet_group" "cloudgen_db_subnet" {
   name       = "cloudgen-subnet-group"
   subnet_ids = [aws_subnet.private_subnet.id, aws_subnet.private_subnet2.id]
 }
-
-
-
