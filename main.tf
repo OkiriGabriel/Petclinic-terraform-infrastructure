@@ -146,8 +146,6 @@ resource "aws_instance" "web_instance" {
   associate_public_ip_address = true
 
   user_data = "${file("./userdata.sh")}"
-=======
-
 
   tags = {
     "Name" : "Frontend_webserver"
