@@ -9,10 +9,7 @@
 
 ## Terraform Infrastructure Documentation: Infrastructure Setup for Dockerized Pet Clinic Application
 -- This documentation guides you through setting up the infrastructure using Terraform to deploy a Dockerized Pet Clinic application on AWS. The infrastructure includes an Auto Scaling Group (ASG) to manage EC2 instances, a security group to control inbound and outbound traffic, and associated configurations.
-# Link to the terraform infrastructure - 
 
-[https://www.youtube.com/@cloudchamp?
-](https://www.youtube.com/@cloudchamp?sub_confirmation=1)
 # Prerequisites
 - AWS account credentials with appropriate permissions.
 - Terraform installed on your local machine.
