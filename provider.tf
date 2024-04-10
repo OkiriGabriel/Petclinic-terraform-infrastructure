@@ -1,8 +1,8 @@
 terraform {
   backend "s3" {
-    bucket                  = "terraform-statefile-okiri"
+    bucket                  = "gabriel-cloudhight-assessment-tf-bucket"
     key                     = "terraform-statefile-project"
-    region                  = "us-east-1"
+    region                  = "eu-west-2"
     shared_credentials_file = "~/.aws/credentials"
   }
 }

@@ -1,16 +1,16 @@
 variable "region" {
   description = "AWS region"
-  default     = "us-east-1" # Update with your desired region
+  default     = "eu-west-2" # Update with your desired region
 }
 
 variable "ami" {
   description = "EC2 instance AMI ID"
-  default     = "ami-07d9b9ddc6cd8dd30" # Update with your desired AMI ID
+  default     = "ami-0b9932f4918a00c4f" # Update with your desired AMI ID
 }
 
 variable "instance_type" {
   description = "EC2 instance type"
-  default     = "t2.micro" # Update with your desired instance type
+  default     = "t2.small" # Update with your desired instance type
 }
 
 variable "instance_class" {

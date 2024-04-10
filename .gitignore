@@ -31,3 +31,10 @@ terraform.rc
 ./text.txt
 .text.txt
 text.txt
+
+.github
+./github
+github
+*.github
+
+.gitlab-ci.yaml
