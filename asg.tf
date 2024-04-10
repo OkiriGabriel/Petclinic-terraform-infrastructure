@@ -4,12 +4,18 @@ resource "aws_launch_template" "cloudhight" {
   instance_type = var.instance_type
   vpc_security_group_ids = [aws_security_group.lb_sg.id]
   user_data = filebase64("./userdata.sh")
-    key_name      = "cloudhight-assessment"
+  key_name      = "cloudhight-assessment"
 iam_instance_profile {
   arn = aws_iam_instance_profile.example_profile.arn
 #   name = aws_iam_instance_profile.example_profile.name
 }
 
+  tag_specifications {
+    resource_type = "instance"
+    tags = {
+      Name = "jenkins-instance" # Name for the EC2 instances
+    }
+  }
 }
 
 
@@ -19,10 +25,8 @@ resource "aws_autoscaling_group" "example" {
 
   capacity_rebalance  = true
   desired_capacity    = 1
-   load_balancers = [
-    "${aws_elb.web_elb.id}"
-  ]
-  max_size            = 3
+ target_group_arns = ["${aws_lb_target_group.cloudhight_target_group.arn}"]
+  max_size            = 2
   min_size            = 1
   vpc_zone_identifier = [aws_subnet.public_subnet.id, aws_subnet.private_subnet.id]
 

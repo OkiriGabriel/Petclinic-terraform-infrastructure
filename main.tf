@@ -58,7 +58,7 @@ resource "aws_internet_gateway" "gw" {
 
 resource "aws_route_table" "public_rt" {
   vpc_id = aws_vpc.cloudhight_vpc.id
-
+    
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.gw.id
@@ -80,14 +80,6 @@ resource "aws_route_table_association" "public_1_rt_a" {
   
 }
 
-# Create an application load balancer
-resource "aws_lb" "cloudhight_lb" {
-  name               = "cloudhight-load-balancer"
-  internal           = false
-  load_balancer_type = "application"
-  security_groups    = [aws_security_group.lb_sg.id]
-  subnets            = [aws_subnet.public_subnet.id, aws_subnet.private_subnet2.id]
-}
 
 resource "aws_iam_role" "example_role" {
   name = "Jenkins-terraform"
